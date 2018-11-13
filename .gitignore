@@ -16,6 +16,10 @@
 # VM
 */__vm/
 
+*.vcxproj
+*.vcxproj.filters
+*.sln
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
