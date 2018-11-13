@@ -7,5 +7,8 @@ decoding the TPMS in the first place.
 
 # Todo
 [ ] Verify 8MHz internal oscillator operation is good enough
+
 [ ] Change programming header
+
 [ ] Update schematic with new values
+
