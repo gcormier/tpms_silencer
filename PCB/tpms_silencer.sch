@@ -5,9 +5,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "CalmTPMS"
+Title "TPMS Silencer"
 Date ""
-Rev "v1"
+Rev "v2"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -400,7 +400,7 @@ U 1 1 5BBDA867
 P 950 1400
 F 0 "J1" H 950 1900 50  0000 R CNN
 F 1 "AVR-ISP-6" H 1300 1800 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical_SMD" V 700 1450 50  0001 C CNN
+F 2 "!Custom:AVR-SMD-Programming-Header" V 700 1450 50  0001 C CNN
 F 3 "" H -325 850 50  0001 L CNN
 	1    950  1400
 	1    0    0    -1  
@@ -472,7 +472,7 @@ U 1 1 5BBE5387
 P 3100 4700
 F 0 "Y1" V 3054 4788 50  0000 L CNN
 F 1 "8MHz" V 3145 4788 50  0000 L CNN
-F 2 "Crystal:Crystal_SMD_HC49-SD" H 3100 4700 50  0001 C CNN
+F 2 "Crystal:Crystal_SMD_TXC_7A-2Pin_5x3.2mm" H 3100 4700 50  0001 C CNN
 F 3 "" H 3100 4700 50  0001 C CNN
 	1    3100 4700
 	0    1    1    0   
@@ -595,7 +595,6 @@ F 3 "" H 6050 2700 50  0001 C CNN
 	1    6050 2700
 	1    0    0    -1  
 $EndComp
-NoConn ~ 2400 4400
 NoConn ~ 2400 4800
 $Comp
 L Device:R_Small R2
@@ -707,6 +706,38 @@ F 1 "100k" H 2609 5055 50  0000 L CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" H 2550 5100 50  0001 C CNN
 F 3 "" H 2550 5100 50  0001 C CNN
 	1    2550 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_SPST SW1
+U 1 1 5BF1F002
+P 3250 4150
+F 0 "SW1" H 3250 4385 50  0000 C CNN
+F 1 "SW_SPST" H 3250 4294 50  0000 C CNN
+F 2 "Button_Switch_SMD:SW_SPST_PTS645" H 3250 4150 50  0001 C CNN
+F 3 "" H 3250 4150 50  0001 C CNN
+	1    3250 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 4400 2850 4400
+Wire Wire Line
+	2850 4400 2850 4150
+Wire Wire Line
+	2850 4150 3050 4150
+Wire Wire Line
+	3450 4150 3750 4150
+Wire Wire Line
+	3750 4150 3750 4450
+$Comp
+L power:GNDREF #PWR018
+U 1 1 5BF26970
+P 3750 4450
+F 0 "#PWR018" H 3750 4200 50  0001 C CNN
+F 1 "GNDREF" H 3755 4277 50  0000 C CNN
+F 2 "" H 3750 4450 50  0001 C CNN
+F 3 "" H 3750 4450 50  0001 C CNN
+	1    3750 4450
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
