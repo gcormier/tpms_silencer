@@ -11,6 +11,8 @@
  * Low should be set to EE to reduce wakeup time
  * -U lfuse:w:0xEE:m -U hfuse:w:0xD6:m -U efuse:w:0xFE:m
  * C:\Users\Greg\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14\bin\avrdude "-CC:\Users\Greg\AppData\Local\arduino15\packages\ATTinyCore\hardware\avr\1.2.1/avrdude.conf" -v -pattiny841 -cusbtiny -U lfuse:w:0xEE:m -U hfuse:w:0xD6:m -U efuse:w:0xFE:m
+ * 
+ * MAKE SURE to check for over 100% memory usage after compiling!
  */
 
 
