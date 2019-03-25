@@ -1,4 +1,4 @@
-<img  src="https://github.com/gcormier/tpms_silencer/blob/master/image.jpg"  width=55%/>
+<img  src="https://github.com/gcormier/tpms_silencer/blob/master/image.jpg"  width=30%/>
 
 # tpms_silencer
 Open hardware that supports ASK/FSK transmit on 315/433MHz ISM bands. General point is to spoof TPMS sensors but
