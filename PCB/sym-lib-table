@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name tpms_silencer-rescue)(type Legacy)(uri ${KIPRJMOD}/tpms_silencer-rescue.lib)(options "")(descr ""))
-)
