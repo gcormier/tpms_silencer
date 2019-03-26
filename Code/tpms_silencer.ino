@@ -10,32 +10,32 @@
  * Fuses OK (E:FE, H:D6, L:EE)
  * Low should be set to EE to reduce wakeup time
  * -U lfuse:w:0xEE:m -U hfuse:w:0xD6:m -U efuse:w:0xFE:m
- * C:\Users\Greg\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14\bin\avrdude "-CC:\Users\Greg\AppData\Local\arduino15\packages\ATTinyCore\hardware\avr\1.2.1/avrdude.conf" -v -pattiny841 -cusbtiny -U lfuse:w:0xEE:m -U hfuse:w:0xD6:m -U efuse:w:0xFE:m
- * 
+ * C:\Users\Greg\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14\bin\avrdude "-CC:\Users\Greg\AppData\Local\arduino15\packages\ATTinyCore\hardware\avr\1.2.3/avrdude.conf" -v -pattiny841 -cusbtiny -U lfuse:w:0xEE:m -U hfuse:w:0xD6:m -U efuse:w:0xFE:m
+ *
  * MAKE SURE to check for over 100% memory usage after compiling!
  */
 
 
-#define PIN_EN        A0   // PA0, Pin 13, Arduino 10
-#define PIN_FSK       A1   // PA1, Pin 12, Arduino 9
-#define PIN_ASK       A2   // PA2, Pin 11, Arduino 8
+#define PIN_EN        PIN_A0   // PA0, Pin 13, Arduino 10
+#define PIN_FSK       PIN_A1   // PA1, Pin 12, Arduino 9
+#define PIN_ASK       PIN_A2   // PA2, Pin 11, Arduino 8
 
 #define FSKLOW        (bitSet(PORTA, 1))
 #define FSKHIGH       (bitClear(PORTA, 1))
 #define FSKTOGGLE     (PORTA = PORTA ^ _BV(1))
 
-#define PACKETSIZE    144
+#define PACKETSIZE    115
 
 #define PACKET_DELAY  25   // Milliseconds between packets
-#define WAKEUPCOUNT   16     // How make 8-second wakeups before transmit
+#define WAKEUPCOUNT   1     // How make 8-second wakeups before transmit
 
-const char PROGMEM packetOne[] = "111111001100110101010101010101010100101010110100110101001011001010101101010100101010101101010100110011010011010010101011010101001100110100101100";
+const char PROGMEM packetOne[] = "1111010101010101010101010101010111100110101010010110011010010101101001010110010110101001011001011010011010101000000";
 const char PROGMEM packetTwo[] = "111111001011001100101011001100101010101101001011001011010101010101001010101011010101010100110100110011001010101101010101001100101010101010101100";
 const char PROGMEM packetFour[] = "111111001100110010101010101011010010101010110100110101001011001101010010101011010101010101010100110011001100101101010101010011001100110101001100";
 const char PROGMEM packetThree[] = "111111001011001010110011010010101100110101001011001010110100101101001101010100101010101011010100110011001011010010101011010101001101010010101100";
 
 // Allocate the memory
-char currentPacket[] = "111111001100110010101010101011010010101010110100110101001011001101010010101011010101010101010100110011001100101101010101010011001100110101001100";
+char currentPacket[] = "1111010101010101010101010101010111100110101010010110011010010101101001010110010110101001011001011010011010101000000";
 
 volatile unsigned int currentPos;
 volatile bool transmitting = false;
@@ -51,12 +51,12 @@ void setupInterrupt8()
   TCCR1B = 0;
   TCNT1 = 0;
 
-  // 10000 Hz (8000000/((99+1)*8))
-  OCR1A = 99;
+  // 8333.333333333334 Hz (8000000/((959+1)*1))
+  OCR1A = 959;
   // CTC
   TCCR1B |= (1 << WGM12);
-  // Prescaler 8
-  TCCR1B |= (1 << CS11);
+  // Prescaler 1
+  TCCR1B |= (1 << CS10);
   // Output Compare Match A Interrupt Enable
   TIMSK1 |= (1 << OCIE1A);
   interrupts();
@@ -71,12 +71,12 @@ void setupInterrupt16()
   TCCR1B = 0;
   TCNT1 = 0;
 
-  // 10000 Hz (16000000/((24+1)*64))
-  OCR1A = 24;
+  // 8333.333333333334 Hz (16000000/((1919+1)*1))
+  OCR1A = 1919;
   // CTC
   TCCR1B |= (1 << WGM12);
-  // Prescaler 64
-  TCCR1B |= (1 << CS11) | (1 << CS10);
+  // Prescaler 1
+  TCCR1B |= (1 << CS10);
   // Output Compare Match A Interrupt Enable
   TIMSK1 |= (1 << OCIE1A);
   interrupts();
@@ -94,7 +94,7 @@ void setup()
   pinMode(PIN_EN, OUTPUT);
   pinMode(PIN_FSK, OUTPUT);
   pinMode(PIN_ASK, OUTPUT);
-  
+
   disableTX();
 
 #if F_CPU == 16000000L
@@ -136,7 +136,7 @@ void sleepyTime()
 {
   // Just in case
   disableTX();
-  
+
   // disable ADC
   ADCSRA = 0;
 
@@ -144,13 +144,13 @@ void sleepyTime()
   power_usart0_disable();
   power_timer2_disable();
   power_twi_disable();
-  
+
   // clear various "reset" flags
   MCUSR = 0;
-  
+
   // allow changes, disable reset
   WDTCSR = bit(WDE);
-  
+
   // set interrupt mode and an interval 
   WDTCSR = bit(WDIE) | bit(WDP3) | bit(WDP0);    // set WDIE, and 8 seconds delay
   wdt_reset();  // pat the dog
@@ -182,7 +182,7 @@ void loop()
     while (transmitting)
       __asm__("nop\n\t");
     delay(PACKET_DELAY);
-
+    /*
     sendPacket(packetTwo);
     while (transmitting)
       __asm__("nop\n\t");
@@ -197,6 +197,7 @@ void loop()
     while (transmitting)
       __asm__("nop\n\t");
     delay(PACKET_DELAY);
+    */
   }
 
   sleepyTime();
