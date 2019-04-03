@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:tpms_silencer-cache
 EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
@@ -739,4 +740,14 @@ F 3 "" H 3750 4450 50  0001 C CNN
 	1    3750 4450
 	1    0    0    -1  
 $EndComp
+Text Notes 3900 2100 0    50   ~ 0
+(13.560MHz)
+Text Notes 8100 2350 0    50   ~ 0
+(82nH)
+Text Notes 8600 2750 0    50   ~ 0
+(3.9pF)
+Text Notes 7150 1750 0    50   ~ 0
+(NP)
+Text Notes 4900 1350 0    50   ~ 0
+(433.92MHz in parenthesis)
 $EndSCHEMATC
