@@ -1,4 +1,4 @@
-15394497620631546
+15455860782142890
 !Custom
 315MHz Antenna
 
@@ -125,6 +125,20 @@ Stitching_Via_0.6mm
 0
 1
 1
+!Custom
+TinkerTown
+
+
+0
+0
+0
+!Custom
+TinkerTown_Silkscreen
+
+
+0
+0
+0
 !Custom
 TSM-106-01-T-SH
 
@@ -1260,6 +1274,13 @@ switch normally-open pushbutton push-button
 4
 4
 Button_Switch_SMD
+SW_Push_1P1T_NO_6x6mm_H9.5mm
+tactile push button, 6x6mm e.g. PTS645xx series, height=9.5mm
+tact sw push 6mm smd
+0
+4
+2
+Button_Switch_SMD
 SW_Push_1P1T_NO_CK_KMR2
 CK components KMR2 tactile switch http://www.ckswitches.com/media/1479/kmr2.pdf
 tactile switch kmr2
@@ -1289,21 +1310,21 @@ SMD SMT button
 2
 Button_Switch_SMD
 SW_SP3T_PCM13
-Ultraminiature Surface Mount Slide Switch
+Ultraminiature Surface Mount Slide Switch, right-angle, https://www.ckswitches.com/media/1424/pcm.pdf
 
 0
 8
 4
 Button_Switch_SMD
 SW_SPDT_CK-JS102011SAQN
-http://www.ckswitches.com/media/1422/js.pdf
+Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf
 switch spdt
 0
 3
 3
 Button_Switch_SMD
 SW_SPDT_PCM12
-Ultraminiature Surface Mount Slide Switch
+Ultraminiature Surface Mount Slide Switch, right-angle, https://www.ckswitches.com/media/1424/pcm.pdf
 
 0
 7
@@ -14303,7 +14324,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0215_1x02_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0215 (compatible alternatives: 43650-0216, 43650-0217), 2 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 2
 2
@@ -14317,7 +14338,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0315_1x03_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0315 (compatible alternatives: 43650-0316, 43650-0317), 3 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 3
 3
@@ -14331,7 +14352,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0415_1x04_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0415 (compatible alternatives: 43650-0416, 43650-0417), 4 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 4
 4
@@ -14345,7 +14366,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0515_1x05_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0515 (compatible alternatives: 43650-0516, 43650-0517), 5 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 5
 5
@@ -14359,7 +14380,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0615_1x06_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0615 (compatible alternatives: 43650-0616, 43650-0617), 6 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 6
 6
@@ -14373,7 +14394,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0715_1x07_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0715 (compatible alternatives: 43650-0716, 43650-0717), 7 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 7
 7
@@ -14387,7 +14408,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0815_1x08_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0815 (compatible alternatives: 43650-0816, 43650-0817), 8 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 8
 8
@@ -14401,7 +14422,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-0915_1x09_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-0915 (compatible alternatives: 43650-0916, 43650-0917), 9 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 9
 9
@@ -14415,7 +14436,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-1015_1x10_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-1015 (compatible alternatives: 43650-1016, 43650-1017), 10 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 10
 10
@@ -14429,7 +14450,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-1115_1x11_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-1115 (compatible alternatives: 43650-1116, 43650-1117), 11 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 11
 11
@@ -14443,7 +14464,7 @@ connector Molex Micro-Fit_3.0 top entry
 Connector_Molex
 Molex_Micro-Fit_3.0_43650-1215_1x12_P3.00mm_Vertical
 Molex Micro-Fit 3.0 Connector System, 43650-1215 (compatible alternatives: 43650-1216, 43650-1217), 12 Pins per row (http://www.molex.com/pdm_docs/sd/436500215_sd.pdf), generated with kicad-footprint-generator
-connector Molex Micro-Fit_3.0 side entry
+connector Molex Micro-Fit_3.0 vertical
 0
 12
 12
@@ -36306,8 +36327,8 @@ RJ45_Wuerth_7499010121A_Horizontal
 10/100Base-TX RJ45 ethernet magnetic transformer connector horizontal https://katalog.we-online.de/pbs/datasheet/7499010121A.pdf
 RJ45 ethernet magnetic
 0
-12
-12
+14
+13
 Connector_RJ
 RJ45_Wuerth_7499151120_Horizontal
 Wuerth 7499151120, LAN-Transformer WE-RJ45LAN 10/100/1000 BaseT, Dual Ethernet Jack (http://katalog.we-online.de/pbs/datasheet/7499151120.pdf)
@@ -39828,6 +39849,13 @@ https://www.molex.com/pdm_docs/sd/1050570001_sd.pdf
 USB A Vertical
 0
 7
+5
+Connector_USB
+USB_A_Stewart_SS-52100-001_Horizontal
+USB A connector https://belfuse.com/resources/drawings/stewartconnector/dr-stw-ss-52100-001.pdf
+USB_A Female Connector receptacle
+0
+6
 5
 Connector_USB
 USB_A_Wuerth_61400826021_Horizontal_Stacked
@@ -46984,6 +47012,13 @@ Inductor Radial series Radial pin pitch 5.00mm  diameter 10.0mm Neosid SD12 styl
 2
 2
 Inductor_THT
+L_Radial_D10.5mm_P4.00x5.00mm_Murata_1200RS
+Inductor, Radial, Pitch=4.00x5.00mm, Diameter=10.5mm, Murata 1200RS, http://www.murata-ps.com/data/magnetics/kmp_1200rs.pdf
+Inductor Radial Murata 1200RS
+0
+4
+2
+Inductor_THT
 L_Radial_D10.5mm_P5.00mm_Abacron_AISR-01
 Inductor, Radial series, Radial, pin pitch=5.00mm, , diameter=10.5mm, Abacron, AISR-01, http://www.abracon.com/Magnetics/radial/AISR-01.pdf
 Inductor Radial series Radial pin pitch 5.00mm  diameter 10.5mm Abacron AISR-01
@@ -48371,14 +48406,14 @@ LED PLCC-2 SMD
 2
 LED_SMD
 LED_PLCC_2835
-http://www.everlight.com/file/ProductFile/67-21S-KK2C-H4040QAR32835Z15-2T.pdf
+https://www.luckylight.cn/media/component/data-sheet/R2835BC-B2M-M10.pdf
 LED
 0
 2
 2
 LED_SMD
 LED_PLCC_2835_Handsoldering
-http://www.everlight.com/file/ProductFile/67-21S-KK2C-H4040QAR32835Z15-2T.pdf
+https://www.luckylight.cn/media/component/data-sheet/R2835BC-B2M-M10.pdf
 LED
 0
 2
@@ -49118,6 +49153,13 @@ Omega Onion module
 0
 32
 32
+Module
+Onion_Omega2S
+https://github.com/OnionIoT/Omega2/raw/master/Documents/Omega2S%20Datasheet.pdf
+onion omega module
+0
+89
+64
 Module
 Pololu_Breakout-16_15.2x20.3mm
 Pololu Breakout 16-pin 15.2x20.3mm 0.6x0.8\
@@ -50442,6 +50484,13 @@ SMD SMT crystal oscillator
 4
 4
 Oscillator
+Oscillator_SMD_Abracon_ASDMB-4Pin_2.5x2.0mm
+Miniature Crystal Clock Oscillator Abracon ASDMB series, 2.5x2.0mm package, http://www.abracon.com/Oscillators/ASDMB.pdf
+SMD SMT crystal oscillator
+0
+4
+4
+Oscillator
 Oscillator_SMD_Abracon_ASE-4Pin_3.2x2.5mm
 Miniature Crystal Clock Oscillator Abracon ASE series, http://www.abracon.com/Oscillators/ASEseries.pdf, 3.2x2.5mm^2 package
 SMD SMT crystal oscillator
@@ -50466,6 +50515,13 @@ Oscillator
 Oscillator_SMD_Abracon_ASV-4Pin_7.0x5.1mm_HandSoldering
 Miniature Crystal Clock Oscillator Abracon ASV series, http://www.abracon.com/Oscillators/ASV.pdf, hand-soldering, 7.0x5.1mm^2 package
 SMD SMT crystal oscillator hand-soldering
+0
+4
+4
+Oscillator
+Oscillator_SMD_Diodes_FN-4Pin_7.0x5.0mm
+FN Series Crystal Clock Oscillator (XO) (https://www.diodes.com/assets/Datasheets/FN_3-3V.pdf)
+Oscillator Crystal SMD SMT
 0
 4
 4
@@ -50794,6 +50850,20 @@ LFCSP NoLead
 Package_CSP
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm_ThermalVias
 LFCSP, 16 Pin (https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_22.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+LFCSP NoLead
+0
+26
+17
+Package_CSP
+LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm
+LFCSP, 16 Pin (https://www.analog.com/media/en/technical-documentation/data-sheets/HMC7992.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+LFCSP NoLead
+0
+21
+17
+Package_CSP
+LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm_ThermalVias
+LFCSP, 16 Pin (https://www.analog.com/media/en/technical-documentation/data-sheets/HMC7992.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
 LFCSP NoLead
 0
 26
@@ -51478,6 +51548,13 @@ DFN 0.5
 13
 11
 Package_DFN_QFN
+DFN-10-1EP_3x3mm_P0.5mm_EP1.7x2.5mm
+DFN, 10 Pin (https://www.monolithicpower.com/pub/media/document/MPQ2483_r1.05.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+DFN NoLead
+0
+15
+11
+Package_DFN_QFN
 DFN-10-1EP_3x3mm_P0.5mm_EP1.55x2.48mm
 10-Lead Plastic Dual Flat, No Lead Package (MF) - 3x3x0.9 mm Body [DFN] (see Microchip Packaging Specification 00000049BS.pdf)
 DFN 0.5
@@ -51849,6 +51926,13 @@ DFN 0.5
 8
 8
 Package_DFN_QFN
+OnSemi_UDFN-8_1.2x1.8mm_P0.4mm
+8-Lead Plastic Dual Flat, No Lead Package, 1.2x1.8x1.55 mm Body [UDFN] (See http://www.onsemi.com/pub/Collateral/NLSV2T244-D.PDF)
+dfn udfn dual flat
+0
+8
+8
+Package_DFN_QFN
 OnSemi_VCT-28_3.5x3.5mm_P0.4mm
 OnSemi  VCT, 28 Pin (http://www.onsemi.com/pub/Collateral/601AE.PDF), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
 OnSemi VCT DFN_QFN
@@ -51929,6 +52013,20 @@ Package_DFN_QFN
 QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm_ThermalVias
 QFN, 16 Pin (http://cds.linear.com/docs/en/datasheet/37551fd.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
 QFN DFN_QFN
+0
+26
+17
+Package_DFN_QFN
+QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm
+QFN, 16 Pin (https://www.onsemi.com/pub/Collateral/NCN4555-D.PDF), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+21
+17
+Package_DFN_QFN
+QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm_ThermalVias
+QFN, 16 Pin (https://www.onsemi.com/pub/Collateral/NCN4555-D.PDF), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
 0
 26
 17
@@ -52016,6 +52114,20 @@ QFN DFN_QFN
 0
 31
 17
+Package_DFN_QFN
+QFN-20-1EP_3.5x3.5mm_P0.5mm_EP2x2mm
+QFN, 20 Pin (http://www.ti.com/lit/ml/mpqf239/mpqf239.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+25
+21
+Package_DFN_QFN
+QFN-20-1EP_3.5x3.5mm_P0.5mm_EP2x2mm_ThermalVias
+QFN, 20 Pin (http://www.ti.com/lit/ml/mpqf239/mpqf239.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+30
+21
 Package_DFN_QFN
 QFN-20-1EP_3x3mm_P0.4mm_EP1.65x1.65mm
 QFN, 20 Pin (https://www.analog.com/media/en/technical-documentation/data-sheets/3553fc.pdf#page=34), generated with kicad-footprint-generator ipc_noLead_generator.py
@@ -52454,6 +52566,20 @@ Package_DFN_QFN
 QFN-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm_ThermalVias
 QFN, 32 Pin (http://infocenter.nordicsemi.com/pdf/nRF52810_PS_v1.1.pdf (Page 468)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
 QFN DFN_QFN
+0
+59
+33
+Package_DFN_QFN
+QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm
+QFN, 32 Pin (https://www.espressif.com/sites/default/files/documentation/0a-esp8285_datasheet_en.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+37
+33
+Package_DFN_QFN
+QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm_ThermalVias
+QFN, 32 Pin (https://www.espressif.com/sites/default/files/documentation/0a-esp8285_datasheet_en.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
 0
 59
 33
@@ -53144,6 +53270,20 @@ QFN NoLead
 43
 29
 Package_DFN_QFN
+Texas_RGE0024C_EP2.1x2.1mm
+Texas  QFN, 24 Pin (http://www.ti.com/lit/ds/symlink/pca9548a.pdf#page=34), generated with kicad-footprint-generator ipc_noLead_generator.py
+Texas QFN NoLead
+0
+29
+25
+Package_DFN_QFN
+Texas_RGE0024C_EP2.1x2.1mm_ThermalVias
+Texas  QFN, 24 Pin (http://www.ti.com/lit/ds/symlink/pca9548a.pdf#page=34), generated with kicad-footprint-generator ipc_noLead_generator.py
+Texas QFN NoLead
+0
+39
+25
+Package_DFN_QFN
 Texas_RGE0024H_EP2.7x2.7mm
 Texas  QFN, 24 Pin (http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=43), generated with kicad-footprint-generator ipc_noLead_generator.py
 Texas QFN NoLead
@@ -53157,6 +53297,13 @@ Texas QFN NoLead
 0
 39
 25
+Package_DFN_QFN
+Texas_RNN0018A
+Texas Instruments, VQFN-HR RNN0018A (http://www.ti.com/lit/ds/symlink/tps568215.pdf)
+ti vqfn-hr rnn0018a
+0
+26
+18
 Package_DFN_QFN
 Texas_RUM0016A_EP2.6x2.6mm
 QFN, 16 Pin (http://www.ti.com/lit/ds/symlink/lmh0074.pdf#page=13), generated with kicad-footprint-generator ipc_noLead_generator.py
@@ -53438,6 +53585,20 @@ QFN NoLead
 39
 25
 Package_DFN_QFN
+Texas_S-PWQFN-N32_EP2.8x2.8mm
+QFN, 32 Pin (https://www.ti.com/lit/ds/symlink/bq25703a.pdf#page=91), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+37
+33
+Package_DFN_QFN
+Texas_S-PWQFN-N32_EP2.8x2.8mm_ThermalVias
+QFN, 32 Pin (https://www.ti.com/lit/ds/symlink/bq25703a.pdf#page=91), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+47
+33
+Package_DFN_QFN
 Texas_S-PWQFN-N100_EP5.5x5.5mm
 http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=szza059&fileType=pdf,http://www.ti.com/lit/ds/sllse76m/sllse76m.pdf
 MultiRow QFN
@@ -53494,6 +53655,13 @@ TQFN DFN_QFN
 21
 17
 Package_DFN_QFN
+TQFN-16-1EP_5x5mm_P0.8mm_EP3.1x3.1mm
+TQFN, 16 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0140.PDF), generated with kicad-footprint-generator ipc_noLead_generator.py
+TQFN NoLead
+0
+21
+17
+Package_DFN_QFN
 TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack
 TQFN, 24 Pin (https://ams.com/documents/20143/36005/AS1115_DS000206_1-00.pdf/3d3e6d35-b184-1329-adf9-2d769eb2404f), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
 TQFN DFN_QFN
@@ -53514,6 +53682,13 @@ UDFN-4_1x1mm_P0.65mm
 0
 16
 5
+Package_DFN_QFN
+UDFN-9_1.0x3.8mm_P0.5mm
+9-pin UDFN package, 1.0x3.8mm, (Ref: https://katalog.we-online.de/pbs/datasheet/824014881.pdf)
+UDFN SMD
+0
+9
+9
 Package_DFN_QFN
 UDFN-10_1.35x2.6mm_P0.5mm
 http://www.st.com/content/ccc/resource/technical/document/datasheet/f2/11/8a/ed/40/31/40/56/DM00088292.pdf/files/DM00088292.pdf/jcr:content/translations/en.DM00088292.pdf
@@ -55867,8 +56042,8 @@ Analog Devices (Linear Tech), 133-pin LGA uModule, 15.0x15.0x4.32mm, https://www
 133
 133
 Package_LGA
-NXP_MPL115A1_LGA-8_3x5mm_P1.25mm
-NXP MPL115A1 LGA, 8 Pin (https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+NXP_LGA-8_3x5mm_P1.25mm_H1.2mm
+NXP  LGA, 8 Pin (https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
 NXP LGA NoLead
 0
 8
@@ -56379,10 +56554,17 @@ QFP 0.65
 80
 Package_QFP
 TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm
-100-Lead Plastic Thin Quad Flatpack (PF) - 14x14x1 mm Body 2.00 mm Footprint with Exposed Pad [TQFP] (see Microchip Packaging Specification 00000049BS.pdf)
-QFP 0.5
+TQFP, 100 Pin (https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_100_4.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TQFP QFP
 0
 117
+101
+Package_QFP
+TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm_ThermalVias
+TQFP, 100 Pin (https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_100_4.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TQFP QFP
+0
+143
 101
 Package_QFP
 TQFP-100_12x12mm_P0.4mm
@@ -57148,6 +57330,13 @@ SO SOIC 2.54
 4
 4
 Package_SO
+SO-4_4.4x3.9mm_P2.54mm
+SO, 4 Pin (https://toshiba.semicon-storage.com/info/docget.jsp?did=10047&prodName=TLP3123), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SO SO
+0
+4
+4
+Package_SO
 SO-4_4.4x4.3mm_P2.54mm
 4-Lead Plastic Small Outline (SO), see https://docs.broadcom.com/docs/AV02-0173EN
 SO SOIC 2.54
@@ -57296,22 +57485,29 @@ SOIC 1.27
 7
 Package_SO
 SOIC-8_3.9x4.9mm_P1.27mm
-8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf)
-SOIC 1.27
+SOIC, 8 Pin (JEDEC MS-012AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_8.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 8
 8
 Package_SO
-SOIC-14W_7.5x9.0mm_P1.27mm
-14-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body (http://www.ti.com/lit/ds/symlink/lm1877.pdf)
-SOIC 1.27
+SOIC-8_5.23x5.23mm_P1.27mm
+SOIC, 8 Pin (http://www.winbond.com/resource-files/w25q32jv%20revg%2003272018%20plus.pdf#page=68), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
+0
+8
+8
+Package_SO
+SOIC-14W_7.5x9mm_P1.27mm
+SOIC, 14 Pin (JEDEC MS-013AF, https://www.analog.com/media/en/package-pcb-resources/package/54614177245586rw_14.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 14
 14
 Package_SO
 SOIC-14_3.9x8.7mm_P1.27mm
-14-Lead Plastic Small Outline (SL) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 14 Pin (JEDEC MS-012AB, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_14.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 14
 14
@@ -57331,22 +57527,22 @@ SOIC 1.27
 16
 Package_SO
 SOIC-16W_7.5x10.3mm_P1.27mm
-16-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 16 Pin (JEDEC MS-013AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/rw_16.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 16
 16
 Package_SO
 SOIC-16W_7.5x12.8mm_P1.27mm
-16-Lead Plastic Small Outline (SO) - Wide, 7.50 mm x 12.8 mm Body (http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM6000.PDF)
-SOIC 1.27
+SOIC, 16 Pin (https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ri_soic_ic/ri_16_1.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 16
 16
 Package_SO
 SOIC-16_3.9x9.9mm_P1.27mm
-16-Lead Plastic Small Outline (SL) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 16 Pin (JEDEC MS-012AC, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_16.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 16
 16
@@ -57359,36 +57555,36 @@ SOIC SO
 16
 Package_SO
 SOIC-18W_7.5x11.6mm_P1.27mm
-18-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 18 Pin (JEDEC MS-013AB, https://www.analog.com/media/en/package-pcb-resources/package/33254132129439rw_18.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 18
 18
 Package_SO
 SOIC-20W_7.5x12.8mm_P1.27mm
-20-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 20 Pin (JEDEC MS-013AC, https://www.analog.com/media/en/package-pcb-resources/package/233848rw_20.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 20
 20
 Package_SO
 SOIC-24W_7.5x15.4mm_P1.27mm
-24-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 24 Pin (JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RW_24.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 24
 24
 Package_SO
 SOIC-28W_7.5x17.9mm_P1.27mm
-28-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
-SOIC 1.27
+SOIC, 28 Pin (JEDEC MS-013AE, https://www.analog.com/media/en/package-pcb-resources/package/35833120341221rw_28.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 28
 28
 Package_SO
 SOIC-28W_7.5x18.7mm_P1.27mm
-28-Lead Plastic Small Outline (SO) - Wide, 7.50 mm X 18.7 mm Body [SOIC] (https://www.akm.com/akm/en/file/datasheet/AK5394AVS.pdf)
-SOIC 1.27
+SOIC, 28 Pin (https://www.akm.com/akm/en/file/datasheet/AK5394AVS.pdf#page=23), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
 0
 28
 28
@@ -57658,6 +57854,13 @@ SSOP 0.635
 0
 56
 56
+Package_SO
+STC_SOP-16_3.9x9.9mm_P1.27mm
+STC  SOP, 16 Pin (https://www.stcmicro.com/datasheet/STC15F2K60S2-en.pdf#page=156), generated with kicad-footprint-generator ipc_gullwing_generator.py
+STC SOP SO
+0
+16
+16
 Package_SO
 ST_MultiPowerSO-30
 MultiPowerSO-30 3EP 16.0x17.2mm Pitch 1mm (http://www.st.com/resource/en/datasheet/vnh2sp30-e.pdf)
@@ -58065,6 +58268,13 @@ Fairchild-specific MicroPak2-6 1.0x1.0mm Pitch 0.35mm
 6
 6
 Package_SON
+HVSON-8-1EP_4x4mm_P0.8mm_EP2.2x3.1mm
+HVSON, 8 Pin (https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf (page 57)), generated with kicad-footprint-generator ipc_noLead_generator.py
+HVSON NoLead
+0
+13
+9
+Package_SON
 NXP_XSON-16
 http://www.nxp.com/documents/outline_drawing/SOT1341-1.pdf
 NXP XSON SOT-1341
@@ -58078,6 +58288,13 @@ ROHM VML0806
 0
 3
 3
+Package_SON
+RTC_SMD_MicroCrystal_C3_2.5x3.7mm
+MicroCrystal C3 2.5x3.7mm, https://www.microcrystal.com/fileadmin/Media/Products/RTC/Datasheet/RV-1805-C3.pdf
+RTC C3
+0
+10
+10
 Package_SON
 SON-8-1EP_3x2mm_P0.5mm_EP1.4x1.6mm
 SON, 8 Pin (http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
@@ -58960,6 +59177,13 @@ DRT-3 1x0.8mm Pitch 0.7mm
 0
 3
 3
+Package_TO_SOT_SMD
+Texas_NDY0011A
+TO-PMOD-11 11-pin switching regulator package, http://www.ti.com/lit/ml/mmsf025/mmsf025.pdf
+Texas TO-PMOD NDY00011A
+0
+12
+12
 Package_TO_SOT_SMD
 Texas_R-PDSO-G6
 R-PDSO-G6, http://www.ti.com/lit/ds/slis144b/slis144b.pdf
@@ -62167,6 +62391,20 @@ Relay SPDT Potter&Brumfield T9AP5D52 12V 30A 1xUm Connector Fast ON Flachstecker
 0
 0
 Relay_THT
+Relay_SPDT_RAYEX-L90
+https://a3.sofastcdn.com/attachment/7jioKBjnRiiSrjrjknRiwS77gwbf3zmp/L90-SERIES.pdf
+Relay RAYEX L90 SPDT
+0
+6
+6
+Relay_THT
+Relay_SPDT_RAYEX-L90S
+https://a3.sofastcdn.com/attachment/7jioKBjnRiiSrjrjknRiwS77gwbf3zmp/L90-SERIES.pdf
+Relay RAYEX L90S SPDT
+0
+5
+5
+Relay_THT
 Relay_SPDT_SANYOU_SRD_Series_Form_C
 relay Sanyou SRD series Form C http://www.sanyourelay.ca/public/products/pdf/SRD.pdf
 relay Sanyu SRD form C
@@ -62250,6 +62488,34 @@ Relau SPST Potter&Brumfield T9AP1D52 12V 30A 1xEin Connector Fast ON Flachstecke
 0
 0
 0
+Relay_THT
+Relay_SPST_RAYEX-L90A
+https://a3.sofastcdn.com/attachment/7jioKBjnRiiSrjrjknRiwS77gwbf3zmp/L90-SERIES.pdf
+Relay RAYEX L90A SPST NO
+0
+5
+5
+Relay_THT
+Relay_SPST_RAYEX-L90AS
+https://a3.sofastcdn.com/attachment/7jioKBjnRiiSrjrjknRiwS77gwbf3zmp/L90-SERIES.pdf
+Relay RAYEX L90AS SPST NO
+0
+4
+4
+Relay_THT
+Relay_SPST_RAYEX-L90B
+https://a3.sofastcdn.com/attachment/7jioKBjnRiiSrjrjknRiwS77gwbf3zmp/L90-SERIES.pdf
+Relay RAYEX L90B SPST NC
+0
+5
+5
+Relay_THT
+Relay_SPST_RAYEX-L90BS
+https://a3.sofastcdn.com/attachment/7jioKBjnRiiSrjrjknRiwS77gwbf3zmp/L90-SERIES.pdf
+Relay RAYEX L90BS SPST NC
+0
+4
+4
 Relay_THT
 Relay_SPST_SANYOU_SRD_Series_Form_A
 relay Sanyou SRD series Form A http://www.sanyourelay.ca/public/products/pdf/SRD.pdf
@@ -64002,8 +64268,8 @@ LoRa Low Power Long Range Transceiver Module
 16
 RF_Module
 HOPERF_RFM9XW_THT
- Low Power Long Range Transceiver Module SMD-16 http://www.hoperf.com/upload/rf/RFM95_96_97_98W.pdf
- Low Power Long Range Transceiver Module
+Low Power Long Range Transceiver Module THT-16 (https://www.hoperf.com/data/upload/portal/20181127/5bfcbea20e9ef.pdf)
+Low Power Long Range Transceiver Module LoRa
 0
 16
 16
@@ -70069,3 +70335,10 @@ Transformer Toroid tapped horizontal laying Diameter 14mm Amidon T50
 0
 6
 6
+Transformer_THT
+Transformer_Wuerth_750343373
+Transformer, horizontal core with bobbin, 10 pin, 3.81mm pitch, 15.24mm row spacing, 22x23x17.53mm (https://katalog.we-online.com/ctm/datasheet/750343373.pdf)
+transformer flyback
+0
+10
+10
