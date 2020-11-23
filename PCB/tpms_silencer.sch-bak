@@ -4919,12 +4919,12 @@ $EndComp
 Text Label 5950 5400 2    50   ~ 0
 EN
 $Comp
-L Connector_Generic:Conn_01x05 J2
+L Connector_Generic:Conn_01x05 J?
 U 1 1 5FBDD2D7
 P 6250 5500
-F 0 "J2" H 6330 5542 50  0000 L CNN
-F 1 "TEST" H 6330 5451 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Horizontal" H 6250 5500 50  0001 C CNN
+F 0 "J?" H 6330 5542 50  0000 L CNN
+F 1 "Conn_01x05" H 6330 5451 50  0000 L CNN
+F 2 "" H 6250 5500 50  0001 C CNN
 F 3 "~" H 6250 5500 50  0001 C CNN
 	1    6250 5500
 	1    0    0    -1  
