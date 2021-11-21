@@ -14,6 +14,8 @@
 #define PIN_BUTTON A7 // PA7, Pin 6, PCINT7
 #define INTERRUPT_PIN PCINT7
 
+#define ENABLE_WDT // continually resets? if disabled!
+
 // Tie ASK and FSK signals together to drive high stronger/faster?
 // cut ASK link between attiny and MICRF112.
 // bodge ASK to EN on MICRF112. and ASK/FSK together on the attiny
@@ -45,13 +47,13 @@
 #define PACKETSIZE 144
 
 #define PACKET_DELAY 50 // Milliseconds period for packet tx
-#define WAKEUPCOUNT 1  // How many 8-second wakeups before transmit
+#define LIMIT_START   1 // How many 8-second wakeups before transmit
 
 /*
 Each symbol 0/1 is 100us long. sent at a rate of 10kHz
 144 symbols sent = 14.4ms long packets
 Each packet sent 40.85/40.9ms appart
-Notes. currently retransmits every 2:26s (when wakeupCounter > 16)
+Notes. currently retransmits every 2:26s (when wakeupCounter > wakeuplimit)
 
 time      : 2021-10-22 18:46:04
 model     : PMV-107J     type      : TPMS          id        : 07698722
@@ -111,7 +113,8 @@ char currentPacket[] = "11111100101100110100110100101011001010101011001101010010
 
 volatile unsigned int currentPos;
 volatile bool transmitting = false;
-volatile int wakeupCounter = 0;
+volatile unsigned int wakeupCounter = 0;
+volatile unsigned int wakeuplimit = LIMIT_START;  // How many 8-second wakeups before transmit
 
 // static code to execute earlier that setup/loop
 class initcode {
@@ -195,7 +198,7 @@ void setup()
 #else
 #error CPU is not set to 16MHz or 8MHz!
 #endif
-  wakeupCounter = WAKEUPCOUNT+1; // This will force a transmit soonish after powered on, helps with debug
+  wakeupCounter = wakeuplimit; // This will force a transmit soonish after powered on, helps with debug
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -216,7 +219,6 @@ ISR(TIMER1_COMPA_vect)
   }
 }
 
-#define ENABLE_WDT // continually resets? if disabled!
 #ifdef ENABLE_WDT
 // watchdog timer is setup by sleepytime(). should be every 8s.
 ISR(WDT_vect)
@@ -230,11 +232,10 @@ ISR(PCINT0_vect)
 {
   if( digitalRead(PIN_BUTTON) == LOW ) {
     // button press. force wakeup
-    wakeupCounter = WAKEUPCOUNT + 1;
-    //digitalWrite(LED_PIN, HIGH);
-  } else {
+    wakeuplimit = LIMIT_START;
+    wakeupCounter = wakeuplimit;
+  //} else {
     // button release
-    //digitalWrite(LED_PIN, LOW);
   }
 }
 
@@ -284,7 +285,7 @@ void sendPacket(const char *thePacket)
 
 void loop()
 {
-  if (wakeupCounter > WAKEUPCOUNT)
+  if (wakeupCounter >= wakeuplimit)
   {
     sendPacket(packetOne);
     //while (transmitting)
@@ -307,6 +308,8 @@ void loop()
     delay(PACKET_DELAY);
 
     wakeupCounter = 0;
+    // double the wakeuplimit each time to back-off and save battery
+    wakeuplimit *= 2;
   }
 
   sleepyTime();
@@ -314,23 +317,17 @@ void loop()
 
 void enableTX()
 {
-  FSKLOW;  // not required? or should be high!
-  //ASKLOW;
-  //delay(1);
+  FSKLOW;
   ASKHIGH;
   ENHIGH;
-  //digitalWrite(PIN_ASK, HIGH);
-  //digitalWrite(PIN_EN, HIGH);
-  delayMicroseconds(300); // 200uS //1mS to wake up
+
+  delayMicroseconds(300); // 300uS to wake up (similar to captured tpms)
   transmitting = true;
 }
 
 void disableTX()
 {
   ENLOW;
-  FSKLOW;  // not required? Allow OOK decoding
-  //ASKLOW;
-  //digitalWrite(PIN_ASK, LOW);
-  //digitalWrite(PIN_EN, LOW);
+  FSKLOW;
   transmitting = false;
 }
