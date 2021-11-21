@@ -119,20 +119,8 @@ volatile bool transmitting = false;
 volatile unsigned int wakeupCounter = 0;
 volatile unsigned int wakeuplimit = LIMIT_START;  // How many 8-second wakeups before transmit
 
-// static code to execute earlier that setup/loop
-class initcode {
-public:
-  initcode();
-};
+uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
 
-initcode::initcode()
-{
-  pinMode(PIN_EN, OUTPUT);
-  pinMode(PIN_ASK, OUTPUT);
-  ENLOW;
-  ASKHIGH;
-}
-initcode soft;
 
 // 10khz Interrupt for an 8MHz clock
 void setupInterrupt8()
@@ -161,25 +149,19 @@ void setupInterrupt8()
   power_twi_disable();
   
 #ifdef ENABLE_WDT
-  // /* Clear the reset flag. */
-  // MCUSR &= ~(1<<WDRF);
-  
-  // /* In order to change WDE or the prescaler, we need to
-  //  * set WDCE (This will allow updates for 4 clock cycles).
-  //  */
-  // WDTCSR |= (1<<WDE);
+  /* Clear the reset flag. */
+  MCUSR = 0;
+  //MCUSR &= ~(1<<WDRF);
 
-  // /* set new watchdog timeout prescaler value */
-  // WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */
-  
-  // /* Enable the WD interrupt (note no reset). */
-  // WDTCSR |= _BV(WDIE);
+  /* set watchdog interrupt with prescalers */
+  WDTCSR = 1<<WDP0 | 1<<WDP3 | 1<<WDIE | 1<<WDE; /* 8.0 seconds */ 
 #endif
 
   // button interrupt
   PCMSK0 |= (1 << INTERRUPT_PIN);
   GIMSK |= (1 << PCIE0 );
   pinMode(PIN_BUTTON, INPUT_PULLUP);
+
   interrupts();
 }
 
@@ -250,6 +232,8 @@ ISR(TIMER1_COMPA_vect)
 // watchdog timer is setup by sleepytime(). should be every 8s.
 ISR(WDT_vect)
 {
+  // ensure next watchdog uses the interrupt too
+  WDTCSR |= bit(WDIE);
   wakeupCounter++;
 }
 #endif
@@ -269,35 +253,9 @@ void sleepyTime()
 {
   // Just in case
   disableTX();
-  
-// // disable ADC
-//   ADCSRA = 0;
-
-//   power_spi_disable();
-//   power_usart0_disable();
-//   power_timer2_disable();
-//   power_twi_disable();
 
   power_timer1_disable();
-
-#ifdef ENABLE_WDT
-  // clear various "reset" flags
-  MCUSR = 0;
-
-  // allow changes, disable reset
-  WDTCSR = bit(WDE);
-
-  // set interrupt mode and an interval
-  WDTCSR = bit(WDIE) | bit(WDP3) | bit(WDP0); // set WDIE, and 8 seconds delay
-  wdt_reset();                                // pat the dog
-#endif
-
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-  // old way
-  // noInterrupts(); // timed sequence follows
-  // sleep_enable();
-  // interrupts(); // guarantees next instruction executed
-  // sleep_cpu();
 
   sleep_enable();
   sleep_mode();
