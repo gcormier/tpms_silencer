@@ -45,7 +45,7 @@
 
 #define PACKETSIZE 144
 
-#define PACKET_DELAY 50 // Milliseconds period for packet tx
+#define PACKET_DELAY 65 // Milliseconds period for packet tx
 #ifdef BACKOFF
 #define LIMIT_START   1 // (retx intervals 14s, 28s, 56s, ...)
 #else
@@ -98,11 +98,6 @@ apparently:
           0  0  0 0 1 1 1 1 1 1 1 1 1 1  0 1 1 1 0 1 0 0 1 1 0 1 0 0 1 1 1 0 1 1 1 0 1 1 1 1 0 1 1 1 0 0 0 0 1 0 0 1 0 1 1 1 0 1 1 1 0 0 0 0 1 0 1 0 0
 
 */
-//test const char PROGMEM packetOne[] = "111111111111110000000000000111111100000000111100001100111011001010101101010100101010101101010100110011010011010010101011010101001100110100101100";
-//const char PROGMEM packetOne[] = "111111001100110101010101010101010100101010110100110101001011001010101101010100101010101101010100110011010011010010101011010101001100110100101100";
-//const char PROGMEM packetTwo[] = "111111001011001100101011001100101010101101001011001011010101010101001010101011010101010100110100110011001010101101010101001100101010101010101100";
-//const char PROGMEM packetFour[] = "111111001100110010101010101011010010101010110100110101001011001101010010101011010101010101010100110011001100101101010101010011001100110101001100";
-//const char PROGMEM packetThree[] = "111111001011001010110011010010101100110101001011001010110100101101001101010100101010101011010100110011001011010010101011010101001101010010101100";
 // mine:
 // 07698722
 const char PROGMEM packetOne[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
@@ -111,15 +106,21 @@ const char PROGMEM packetThree[] = "11111100101010101101001011010101001010110100
 const char PROGMEM packetFour[] = "111111001100110010110100101011001011001010110011010101010101001010110101010100101010101010101011001100110011010100110100101100110101001100101100";
 
 // Allocate the memory
-// volatile
 char currentPacket[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
+
+// assigning currentPacket to these on the fly results in weird corruption...
+// const char packetOne[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
+// const char packetTwo[] = "111111001101010101010101010010110010110101001100101011010101001010110010101011010101010101001011001100110010101011001011010011001100110101001100";
+// const char packetThree[] = "111111001010101011010010110101010010101101001100101011010101001010101101010100101010101101001011001100101101010100110100110101010010101100101100";
+// const char packetFour[] = "111111001100110010110100101011001011001010110011010101010101001010110101010100101010101010101011001100110011010100110100101100110101001100101100";
+
+// // Allocate the memory
+// volatile char currentPacket[PACKETSIZE+1] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
 
 volatile unsigned int currentPos;
 volatile bool transmitting = false;
 volatile unsigned int wakeupCounter = 0;
 volatile unsigned int wakeuplimit = LIMIT_START;  // How many 8-second wakeups before transmit
-
-uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
 
 
 // 10khz Interrupt for an 8MHz clock
@@ -140,18 +141,16 @@ void setupInterrupt8()
   // Output Compare Match A Interrupt Enable
   TIMSK1 |= (1 << OCIE1A);
 
-  // disable ADC
+  // disable ADC + others
   ADCSRA = 0;
-
   power_spi_disable();
   power_usart0_disable();
   power_timer2_disable();
   power_twi_disable();
   
 #ifdef ENABLE_WDT
-  /* Clear the reset flag. */
+  /* Clear the reset flags. */
   MCUSR = 0;
-  //MCUSR &= ~(1<<WDRF);
 
   /* set watchdog interrupt with prescalers */
   WDTCSR = 1<<WDP0 | 1<<WDP3 | 1<<WDIE | 1<<WDE; /* 8.0 seconds */ 
@@ -229,7 +228,7 @@ ISR(TIMER1_COMPA_vect)
 }
 
 #ifdef ENABLE_WDT
-// watchdog timer is setup by sleepytime(). should be every 8s.
+// watchdog timer is setup by setupInterrupt8(). should be every 8s.
 ISR(WDT_vect)
 {
   // ensure next watchdog uses the interrupt too
@@ -238,6 +237,7 @@ ISR(WDT_vect)
 }
 #endif
 
+// button interrupt is setup by setupInterrupt8()
 ISR(PCINT0_vect)
 {
   if( digitalRead(PIN_BUTTON) == LOW ) {
@@ -267,7 +267,7 @@ void sendPacket(const char *thePacket)
 {
   transmitting = false; // just in case...
   memcpy_P(currentPacket, thePacket, PACKETSIZE);
-  //currentPacket = thePacket;
+  //memcpy((void*) currentPacket, thePacket, PACKETSIZE+1);
   currentPos = 0;
 
   enableTX();
@@ -278,23 +278,15 @@ void loop()
   if (wakeupCounter >= wakeuplimit)
   {
     sendPacket(packetOne);
-    //while (transmitting)
-    //  __asm__("nop\n\t"); // why not empty {}
-    delay(PACKET_DELAY); // presumably delay will mess with ISR/tx??
-
-    //sendPacket(packetTwo);
-    //while (transmitting)
-    //  __asm__("nop\n\t");
     delay(PACKET_DELAY);
 
-    //sendPacket(packetThree);
-    //while (transmitting)
-    //  __asm__("nop\n\t");
+    sendPacket(packetTwo);
     delay(PACKET_DELAY);
 
-    //sendPacket(packetFour);
-    //while (transmitting)
-    //  __asm__("nop\n\t");
+    sendPacket(packetThree);
+    delay(PACKET_DELAY);
+
+    sendPacket(packetFour);
     delay(PACKET_DELAY);
 
     wakeupCounter = 0;
