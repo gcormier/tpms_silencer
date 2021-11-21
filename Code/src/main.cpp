@@ -1,4 +1,3 @@
-#include <avr/pgmspace.h>
 #include <avr/wdt.h>
 #include <avr/power.h>
 #include <avr/sleep.h>
@@ -101,25 +100,28 @@ apparently:
 */
 // mine:
 // 07698722
-const char PROGMEM packetOne[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
-const char PROGMEM packetTwo[] = "111111001101010101010101010010110010110101001100101011010101001010110010101011010101010101001011001100110010101011001011010011001100110101001100";
-const char PROGMEM packetThree[] = "111111001010101011010010110101010010101101001100101011010101001010101101010100101010101101001011001100101101010100110100110101010010101100101100";
-const char PROGMEM packetFour[] = "111111001100110010110100101011001011001010110011010101010101001010110101010100101010101010101011001100110011010100110100101100110101001100101100";
+// PROGMEM because swapping volatile pointers on the fly results in weird corruption... due to limited ram? 512 bytes < 4*145 = 580..
+//const char PROGMEM packetOne[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
+//const char PROGMEM packetTwo[] = "111111001101010101010101010010110010110101001100101011010101001010110010101011010101010101001011001100110010101011001011010011001100110101001100";
+//const char PROGMEM packetThree[] = "111111001010101011010010110101010010101101001100101011010101001010101101010100101010101101001011001100101101010100110100110101010010101100101100";
+//const char PROGMEM packetFour[] = "111111001100110010110100101011001011001010110011010101010101001010110101010100101010101010101011001100110011010100110100101100110101001100101100";
 
 // Allocate the memory
-char currentPacket[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
+//char currentPacket[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
 
-// assigning currentPacket to these on the fly results in weird corruption...
-// const char packetOne[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
-// const char packetTwo[] = "111111001101010101010101010010110010110101001100101011010101001010110010101011010101010101001011001100110010101011001011010011001100110101001100";
-// const char packetThree[] = "111111001010101011010010110101010010101101001100101011010101001010101101010100101010101101001011001100101101010100110100110101010010101100101100";
-// const char packetFour[] = "111111001100110010110100101011001011001010110011010101010101001010110101010100101010101010101011001100110011010100110100101100110101001100101100";
 
-// // Allocate the memory
-// volatile char currentPacket[PACKETSIZE+1] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
-
+// use the compact encoding reported by rtl433 -?? 
+// Could also store the Diff Manchester decoded values.
+// Or generate whole packets on the fly!
+const unsigned char packets[4][18] = { { 0xfc, 0xb3, 0x4d, 0x2b, 0x2a, 0xb3, 0x52, 0xad, 0x4a, 0xad, 0x54, 0xab, 0x32, 0xca, 0xcb, 0x4d, 0x2c, 0xac},
+                              { 0xfc, 0xd5, 0x55, 0x4b, 0x2d, 0x4c, 0xad, 0x52, 0xb2, 0xad, 0x55, 0x4b, 0x33, 0x2a, 0xcb, 0x4c, 0xcd, 0x4c},
+                              { 0xfc, 0xcc, 0xb4, 0xac, 0xb2, 0xb3, 0x55, 0x52, 0xb5, 0x52, 0xaa, 0xab, 0x33, 0x35, 0x34, 0xb3, 0x53, 0x2c},
+                              { 0xfc, 0xaa, 0xd2, 0xd5, 0x2b, 0x4c, 0xad, 0x52, 0xad, 0x52, 0xab, 0x4b, 0x32, 0xd5, 0x34, 0xd5, 0x2b, 0x2c} };
+volatile unsigned char packet=0;
 volatile unsigned int currentPos;
+
 volatile bool transmitting = false;
+
 volatile unsigned int wakeupCounter = 0;
 volatile unsigned int wakeuplimit = LIMIT_START;  // How many 8-second wakeups before transmit
 
@@ -142,25 +144,9 @@ void setupInterrupt8()
   // Output Compare Match A Interrupt Enable
   TIMSK1 |= (1 << OCIE1A);
 
-  // disable ADC + others
-  ADCSRA = 0;
-  power_spi_disable();
-  power_usart0_disable();
-  power_timer2_disable();
-  power_twi_disable();
-  
-#ifdef ENABLE_WDT
-  /* Clear the reset flags. */
-  MCUSR = 0;
-
-  /* set watchdog interrupt with prescalers */
-  WDTCSR = 1<<WDP0 | 1<<WDP3 | 1<<WDIE | 1<<WDE; /* 8.0 seconds */ 
-#endif
-
   // button interrupt
   PCMSK0 |= (1 << INTERRUPT_PIN);
   GIMSK |= (1 << PCIE0 );
-  pinMode(PIN_BUTTON, INPUT_PULLUP);
 
   interrupts();
 }
@@ -182,6 +168,11 @@ void setupInterrupt16()
   TCCR1B |= (1 << CS11) | (1 << CS10);
   // Output Compare Match A Interrupt Enable
   TIMSK1 |= (1 << OCIE1A);
+
+  // button interrupt
+  PCMSK0 |= (1 << INTERRUPT_PIN);
+  GIMSK |= (1 << PCIE0 );
+
   interrupts();
 }
 
@@ -191,14 +182,26 @@ void setup()
   for (byte i = 0; i < 13; i++)
     pinMode(i, INPUT);
 
-  // disable ADC
+  // disable ADC + other stuff that uses power
   ADCSRA = 0;
+  power_spi_disable();
+  power_usart0_disable();
+  power_timer2_disable();
+  power_twi_disable();
 
   pinMode(PIN_EN, OUTPUT);
   pinMode(PIN_FSK, OUTPUT);
   pinMode(PIN_ASK, OUTPUT);
+  pinMode(PIN_BUTTON, INPUT_PULLUP);
+  
+#ifdef ENABLE_WDT
+  /* Clear the reset flags. */
+  MCUSR = 0;
 
-  disableTX();
+  /* set watchdog interrupt with prescalers */
+  WDTCSR = 1<<WDP0 | 1<<WDP3 | 1<<WDIE | 1<<WDE; /* 8.0 seconds */ 
+#endif
+
 
 #if F_CPU == 16000000L
   setupInterrupt16();
@@ -207,9 +210,12 @@ void setup()
 #else
 #error CPU is not set to 16MHz or 8MHz!
 #endif
-  wakeupCounter = wakeuplimit; // This will force a transmit soonish after powered on, helps with debug
+  disableTX();
+
+  wakeupCounter = wakeuplimit; // This will force an immediate transmit
 }
 
+// 100 usec timer for bit tx
 ISR(TIMER1_COMPA_vect)
 {
   if (transmitting)
@@ -220,7 +226,7 @@ ISR(TIMER1_COMPA_vect)
       return;
     }
 
-    if (currentPacket[currentPos] == '1')
+    if ( ( packets[packet][currentPos/8] & (0x80>>(currentPos % 8)) ) ) 
       FSKHIGH;
     else
       FSKLOW;
@@ -255,20 +261,18 @@ void sleepyTime()
   // Just in case
   disableTX();
 
-  power_timer1_disable();
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
   sleep_enable();
   sleep_mode();
   sleep_disable();
-  power_timer1_enable();
 }
 
-void sendPacket(const char *thePacket)
+void sendPacket(unsigned int i)
 {
   transmitting = false; // just in case...
-  memcpy_P(currentPacket, thePacket, PACKETSIZE);
-  //currentPacket = (char *) thepacket; OR memcpy((void*) currentPacket, thePacket, PACKETSIZE+1);
+  packet = i;
+  //memcpy_P(currentPacket, thePacket, PACKETSIZE);
   currentPos = 0;
 
   enableTX();
@@ -278,23 +282,26 @@ void loop()
 {
   if (wakeupCounter >= wakeuplimit)
   {
-    sendPacket(packetOne);
+    sendPacket(0);
     delay(PACKET_DELAY);
 
-    sendPacket(packetTwo);
+    sendPacket(1);
     delay(PACKET_DELAY);
 
-    sendPacket(packetThree);
+    sendPacket(2);
     delay(PACKET_DELAY);
 
-    sendPacket(packetFour);
+    sendPacket(3);
     delay(PACKET_DELAY);
 
+    // reset to wait for next tx
     wakeupCounter = 0;
-    // double the wakeuplimit each time to back-off and save battery
+
 #ifdef BACKOFF
+    // double the wakeuplimit each time to back-off and save battery
     wakeuplimit *= 2;
 #ifdef MAX_LIMIT
+    // up to this limit
     wakeuplimit = min(wakeuplimit, MAX_LIMIT);
 #endif
 #endif
@@ -311,6 +318,7 @@ void enableTX()
 
   delayMicroseconds(300); // 300uS to wake up (similar to captured tpms)
   transmitting = true;
+  power_timer1_enable();
 }
 
 void disableTX()
@@ -318,4 +326,5 @@ void disableTX()
   ENLOW;
   FSKLOW;
   transmitting = false;
+  power_timer1_disable();
 }
