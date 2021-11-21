@@ -20,7 +20,7 @@
 // Tie ASK and FSK signals together to drive high stronger/faster?
 // cut ASK link between attiny and MICRF112.
 // bodge ASK to EN on MICRF112. and ASK/FSK together on the attiny
-#define FSK_MOD
+//#define FSK_MOD
 
 #ifdef FSK_MOD
 // ASK is tied high already
@@ -48,6 +48,7 @@
 #define PACKET_DELAY 65 // Milliseconds period for packet tx
 #ifdef BACKOFF
 #define LIMIT_START   1 // (retx intervals 14s, 28s, 56s, ...)
+#define MAX_LIMIT     160 // 80 max limit = 10mins
 #else
 #define LIMIT_START   8 // ~60s = 8 (7s) wakeups before transmit
 #endif
@@ -267,7 +268,7 @@ void sendPacket(const char *thePacket)
 {
   transmitting = false; // just in case...
   memcpy_P(currentPacket, thePacket, PACKETSIZE);
-  //memcpy((void*) currentPacket, thePacket, PACKETSIZE+1);
+  //currentPacket = (char *) thepacket; OR memcpy((void*) currentPacket, thePacket, PACKETSIZE+1);
   currentPos = 0;
 
   enableTX();
@@ -293,6 +294,9 @@ void loop()
     // double the wakeuplimit each time to back-off and save battery
 #ifdef BACKOFF
     wakeuplimit *= 2;
+#ifdef MAX_LIMIT
+    wakeuplimit = min(wakeuplimit, MAX_LIMIT);
+#endif
 #endif
   }
 
