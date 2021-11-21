@@ -4,9 +4,6 @@
 #include <avr/sleep.h>
 #include <Arduino.h>
 #include "tpms_silencer.h"
-/*
- * MAKE SURE to check for over 100% memory usage after compiling!
- */
 
 #define PIN_EN A0  // PA0, Pin 13, Arduino 10
 #define PIN_FSK A1 // PA1, Pin 12, Arduino 9
@@ -14,17 +11,19 @@
 #define PIN_BUTTON A7 // PA7, Pin 6, PCINT7
 #define INTERRUPT_PIN PCINT7
 
-#define ENABLE_WDT // continually resets? if disabled!
+#define ENABLE_WDT // disable for tx on button press only
+#define BACKOFF // double transmit period everytime
+
+#define ENHIGH (bitSet(PORTA, 0))
+#define ENLOW (bitClear(PORTA, 0))
 
 // Tie ASK and FSK signals together to drive high stronger/faster?
 // cut ASK link between attiny and MICRF112.
 // bodge ASK to EN on MICRF112. and ASK/FSK together on the attiny
 #define FSK_MOD
 
-#define ENHIGH (bitSet(PORTA, 0))
-#define ENLOW (bitClear(PORTA, 0))
-
 #ifdef FSK_MOD
+// ASK is tied high already
 #define ASKHIGH {}
 #define ASKLOW {}
 
@@ -47,7 +46,11 @@
 #define PACKETSIZE 144
 
 #define PACKET_DELAY 50 // Milliseconds period for packet tx
-#define LIMIT_START   1 // How many 8-second wakeups before transmit
+#ifdef BACKOFF
+#define LIMIT_START   1 // (retx intervals 14s, 28s, 56s, ...)
+#else
+#define LIMIT_START   8 // ~60s = 8 (7s) wakeups before transmit
+#endif
 
 /*
 Each symbol 0/1 is 100us long. sent at a rate of 10kHz
@@ -149,6 +152,30 @@ void setupInterrupt8()
   // Output Compare Match A Interrupt Enable
   TIMSK1 |= (1 << OCIE1A);
 
+  // disable ADC
+  ADCSRA = 0;
+
+  power_spi_disable();
+  power_usart0_disable();
+  power_timer2_disable();
+  power_twi_disable();
+  
+#ifdef ENABLE_WDT
+  // /* Clear the reset flag. */
+  // MCUSR &= ~(1<<WDRF);
+  
+  // /* In order to change WDE or the prescaler, we need to
+  //  * set WDCE (This will allow updates for 4 clock cycles).
+  //  */
+  // WDTCSR |= (1<<WDE);
+
+  // /* set new watchdog timeout prescaler value */
+  // WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */
+  
+  // /* Enable the WD interrupt (note no reset). */
+  // WDTCSR |= _BV(WDIE);
+#endif
+
   // button interrupt
   PCMSK0 |= (1 << INTERRUPT_PIN);
   GIMSK |= (1 << PCIE0 );
@@ -224,7 +251,6 @@ ISR(TIMER1_COMPA_vect)
 ISR(WDT_vect)
 {
   wakeupCounter++;
-  wdt_disable(); // disable watchdog
 }
 #endif
 
@@ -243,14 +269,16 @@ void sleepyTime()
 {
   // Just in case
   disableTX();
+  
+// // disable ADC
+//   ADCSRA = 0;
 
-  // disable ADC
-  ADCSRA = 0;
+//   power_spi_disable();
+//   power_usart0_disable();
+//   power_timer2_disable();
+//   power_twi_disable();
 
-  power_spi_disable();
-  power_usart0_disable();
-  power_timer2_disable();
-  power_twi_disable();
+  power_timer1_disable();
 
 #ifdef ENABLE_WDT
   // clear various "reset" flags
@@ -265,12 +293,16 @@ void sleepyTime()
 #endif
 
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-  noInterrupts(); // timed sequence follows
-  sleep_enable();
-  interrupts(); // guarantees next instruction executed
-  sleep_cpu();
+  // old way
+  // noInterrupts(); // timed sequence follows
+  // sleep_enable();
+  // interrupts(); // guarantees next instruction executed
+  // sleep_cpu();
 
-  //sleep_disable();
+  sleep_enable();
+  sleep_mode();
+  sleep_disable();
+  power_timer1_enable();
 }
 
 void sendPacket(const char *thePacket)
@@ -309,7 +341,9 @@ void loop()
 
     wakeupCounter = 0;
     // double the wakeuplimit each time to back-off and save battery
+#ifdef BACKOFF
     wakeuplimit *= 2;
+#endif
   }
 
   sleepyTime();
