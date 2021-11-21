@@ -46,17 +46,16 @@
 
 #define PACKET_DELAY 65 // Milliseconds period for packet tx
 #ifdef BACKOFF
-#define LIMIT_START   1 // (retx intervals 14s, 28s, 56s, ...)
+#define LIMIT_START   1 // (re-transmit intervals: 14s, 28s, 56s, ..., MAX_LIMIT/8)
 #define MAX_LIMIT     160 // 80 max limit = 10mins
 #else
-#define LIMIT_START   8 // ~60s = 8 (7s) wakeups before transmit
+#define LIMIT_START   8 // ~60s = 8*(7s) wakeups before transmit
 #endif
 
 /*
 Each symbol 0/1 is 100us long. sent at a rate of 10kHz
-144 symbols sent = 14.4ms long packets
-Each packet sent 40.85/40.9ms appart
-Notes. currently retransmits every 2:26s (when wakeupCounter > wakeuplimit)
+144 symbols sent = 14.4ms long packets (+ 300us warmup)
+Each packet sent 65ms appart
 
 time      : 2021-10-22 18:46:04
 model     : PMV-107J     type      : TPMS          id        : 07698722
@@ -98,19 +97,9 @@ apparently:
           0  0  0 0 1 1 1 1 1 1 1 1 1 1  0 1 1 1 0 1 0 0 1 1 0 1 0 0 1 1 1 0 1 1 1 0 1 1 1 1 0 1 1 1 0 0 0 0 1 0 0 1 0 1 1 1 0 1 1 1 0 0 0 0 1 0 1 0 0
 
 */
-// mine:
-// 07698722
-// PROGMEM because swapping volatile pointers on the fly results in weird corruption... due to limited ram? 512 bytes < 4*145 = 580..
-//const char PROGMEM packetOne[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
-//const char PROGMEM packetTwo[] = "111111001101010101010101010010110010110101001100101011010101001010110010101011010101010101001011001100110010101011001011010011001100110101001100";
-//const char PROGMEM packetThree[] = "111111001010101011010010110101010010101101001100101011010101001010101101010100101010101101001011001100101101010100110100110101010010101100101100";
-//const char PROGMEM packetFour[] = "111111001100110010110100101011001011001010110011010101010101001010110101010100101010101010101011001100110011010100110100101100110101001100101100";
-
-// Allocate the memory
-//char currentPacket[] = "111111001011001101001101001010110010101010110011010100101010110101001010101011010101010010101011001100101100101011001011010011010010110010101100";
 
 
-// use the compact encoding reported by rtl433 -?? 
+// use the compact encoding reported by rtl_433 -vv  <-f 315M -R 110> 
 // Could also store the Diff Manchester decoded values.
 // Or generate whole packets on the fly!
 const unsigned char packets[4][18] = { { 0xfc, 0xb3, 0x4d, 0x2b, 0x2a, 0xb3, 0x52, 0xad, 0x4a, 0xad, 0x54, 0xab, 0x32, 0xca, 0xcb, 0x4d, 0x2c, 0xac},
@@ -118,7 +107,7 @@ const unsigned char packets[4][18] = { { 0xfc, 0xb3, 0x4d, 0x2b, 0x2a, 0xb3, 0x5
                               { 0xfc, 0xcc, 0xb4, 0xac, 0xb2, 0xb3, 0x55, 0x52, 0xb5, 0x52, 0xaa, 0xab, 0x33, 0x35, 0x34, 0xb3, 0x53, 0x2c},
                               { 0xfc, 0xaa, 0xd2, 0xd5, 0x2b, 0x4c, 0xad, 0x52, 0xad, 0x52, 0xab, 0x4b, 0x32, 0xd5, 0x34, 0xd5, 0x2b, 0x2c} };
 volatile unsigned char packet=0;
-volatile unsigned int currentPos;
+volatile unsigned int currentBit;
 
 volatile bool transmitting = false;
 
@@ -178,7 +167,6 @@ void setupInterrupt16()
 
 void setup()
 {
-  // TODO: Unsure if INPUT or INPUT_PULLUP gives lowest power consumption.
   for (byte i = 0; i < 13; i++)
     pinMode(i, INPUT);
 
@@ -212,7 +200,7 @@ void setup()
 #endif
   disableTX();
 
-  wakeupCounter = wakeuplimit; // This will force an immediate transmit
+  wakeupCounter = wakeuplimit; // force an immediate transmit
 }
 
 // 100 usec timer for bit tx
@@ -220,22 +208,23 @@ ISR(TIMER1_COMPA_vect)
 {
   if (transmitting)
   {
-    if (currentPos >= PACKETSIZE)
+    if (currentBit >= PACKETSIZE)
     {
       disableTX();
       return;
     }
 
-    if ( ( packets[packet][currentPos/8] & (0x80>>(currentPos % 8)) ) ) 
+    // read off bits in bigendian order
+    if ( ( packets[packet][currentBit/8] & (0x80>>(currentBit % 8)) ) ) 
       FSKHIGH;
     else
       FSKLOW;
-    currentPos++;
+    currentBit++;
   }
 }
 
 #ifdef ENABLE_WDT
-// watchdog timer is setup by setupInterrupt8(). should be every 8s.
+// watchdog timer is setup by setupInterrupt8(). roughly 7-8s at 3v.
 ISR(WDT_vect)
 {
   // ensure next watchdog uses the interrupt too
@@ -248,7 +237,7 @@ ISR(WDT_vect)
 ISR(PCINT0_vect)
 {
   if( digitalRead(PIN_BUTTON) == LOW ) {
-    // button press. force wakeup
+    // button press. force wakeup and initial retransmit period
     wakeuplimit = LIMIT_START;
     wakeupCounter = wakeuplimit;
   //} else {
@@ -268,12 +257,11 @@ void sleepyTime()
   sleep_disable();
 }
 
-void sendPacket(unsigned int i)
+void sendPacket(unsigned int which)
 {
   transmitting = false; // just in case...
-  packet = i;
-  //memcpy_P(currentPacket, thePacket, PACKETSIZE);
-  currentPos = 0;
+  packet = which;
+  currentBit = 0;
 
   enableTX();
 }
@@ -282,17 +270,10 @@ void loop()
 {
   if (wakeupCounter >= wakeuplimit)
   {
-    sendPacket(0);
-    delay(PACKET_DELAY);
-
-    sendPacket(1);
-    delay(PACKET_DELAY);
-
-    sendPacket(2);
-    delay(PACKET_DELAY);
-
-    sendPacket(3);
-    delay(PACKET_DELAY);
+    for (int i=0;i<4;i++) {
+      sendPacket(i);
+      delay(PACKET_DELAY);
+    }
 
     // reset to wait for next tx
     wakeupCounter = 0;
