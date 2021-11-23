@@ -6,8 +6,8 @@
 
 /*
 Each bit/symbol: 0/1 is 100us long. sent at a rate of 10kHz
-144 symbols sent = 14.4ms long packets (+ 300us warmup)
-Packets are sent 40ms apart, then we sleep.
+144 symbols sent in each TPMS packet: taking 14.4ms (+ 200us warmup)
+All Packets are sent 40ms apart, then we deep-sleep.
 If PERIODIC_TX is defined then wakeup after 7s * wakeuplimit (which is potentially variable)
 BACKOFF will double the retransmit period each time until MAX_LIMIT.
 */
@@ -97,7 +97,7 @@ bitbuffer:: Number of rows: 1
 
 // Use the compact encoding reported by rtl_433 -vv  <-f 315M -R 110>
 // could halve this by storing the Differential-Manchester decoded values...
-// Or even better generate packets on the fly, based on id, standard pressure/temp, etc.
+// Or even better generate packets on the fly, based on id, pressure/temp, etc.
 #define NO_PACKETS      4
 #define PACKET_LEN     18
 #define PACKETSIZE    (PACKET_LEN*8) // 144 bits
@@ -248,6 +248,7 @@ ISR(WDT_vect)
 // button interrupt is setup by setupInterrupt8()
 ISR(PCINT0_vect)
 {
+  // could use a +300ms debounce here, but its not critcal if we transmit packets twice...
   if( digitalRead(PIN_BUTTON) == LOW ) {
     // button press. wakeup, transmit and set initial retransmit period
     wakeuplimit = LIMIT_START;
