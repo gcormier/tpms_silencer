@@ -24,24 +24,6 @@ BACKOFF will double the retransmit period each time until MAX_LIMIT.
 #define ENHIGH (bitSet(PORTA, 0))
 #define ENLOW (bitClear(PORTA, 0))
 
-// * unecessary hardware modification *
-// Tie ASK and FSK signals together to drive high stronger/faster?
-// cut ASK link between attiny and MICRF112.
-// bodge ASK to EN on MICRF112. and ASK/FSK together on the attiny.
-//#define FSK_MOD
-
-#ifdef FSK_MOD
-// ASK is tied high already
-#define ASKHIGH {}
-#define ASKLOW {}
-
-// drive PA1 & PA2 together
-#define FSKLOW (PORTA &= ~(0x6))
-#define FSKHIGH (PORTA |= 0x6)
-#define FSKTOGGLE (PORTA = PORTA ^ (0x6))
-
-#else
-
 #define ASKHIGH (bitSet(PORTA, 2))
 #define ASKLOW (bitClear(PORTA, 2))
 
@@ -49,7 +31,6 @@ BACKOFF will double the retransmit period each time until MAX_LIMIT.
 #define FSKLOW (bitClear(PORTA, 1))
 #define FSKTOGGLE (PORTA = PORTA ^ _BV(1))
 
-#endif
 
 #define PACKET_DELAY   40 // Milliseconds inter-packet period
 #ifdef BACKOFF
